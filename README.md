@@ -1,4 +1,4 @@
 goma.github.io
 ==============
 
-Goma website
+[Goma website](http://goma.github.io)
