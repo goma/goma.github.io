@@ -35,7 +35,7 @@ For a more comprehensive introduction look at the [Goma Capabilities document (P
   </li>
   <li>
     <p>
-      Discontinous variables approach for interphase mass-momentum transport (Schunke and Rao, IJNMF 1994)
+      Discontinous variables approach for interphase mass-momentum transport (Schunk and Rao, IJNMF 1994)
     </p>
   </li>
   <li>
@@ -55,7 +55,7 @@ For a more comprehensive introduction look at the [Goma Capabilities document (P
   </li>
   <li>
     <p>
-      Polymer thermoset and condensatin curing
+      Polymer thermoset and condensation curing
     </p>
   </li>
 </ul>
