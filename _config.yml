@@ -6,3 +6,4 @@ analytics:
   provider: google
   google:
     tracking_id: UA-4121810-13
+safe: true
