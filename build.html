@@ -1,399 +1,484 @@
 ---
 layout: default
-title: Goma and Goma TPL build instructions
+title: Goma 6.0 library build instructions
 ---
-<div class="post">
-  <h1>Goma and Goma TPL build instructions</h1>
+<h1>Goma 6.0 build instructions</h1> 
 
-  <p>11/03/2012 – Abishek</p>
+<p>11/03/2012 – Abishek</p>
 
-  <p>1/25/2013 – P. R. Schunk, revised</p>
+<p>1/25/2013 – P. R. Schunk, revised</p>
 
-  <p>These notes are from recent build experiences on Red Hat RHEL5 and Red Hat RHEL6 OS.     Although many of the tips might apply to other platforms, there are no promises.   </p>
+<p>6/12/2014 – C. J. Miner, revised</p>
 
-  <p>I have created this document/note to help users go through the GOMA build process without too many issues. I have added notes from ACCESS.distribution and GOMA_howto files in here. </p>
+<div>
+	<h3><a href="build-script.html">New! Goma dependencies Build script!</a></h3>
+	<p>Build goma's dependencies automatically using a script</p>
+</div>
 
-  <p>Basically, you first need to acquire the GOMA software distribution by one of several means.    The required libraries, or TPLs, are numerous.    If you have no root access, and you want to build a self-contained distribution from which GOMA and all its dependencies can be built, your directories and files will look like this in your “GOMA_ROOT” area:</p>
-  <div class="highlight">
-    <pre><code class="text language-text" data-lang="text">
-	about_libraries
-	make_output
-	ARPACK
-	openmpi-1.6.3
-	BLAS
-	cmake-2.8.10.2
-	Readme.libs
-	Seacas-2012-09-10
-	front
-	sparse
-	Goma_howto.txt
-	SuiteSparse
-	Key-linux-mpi-cmake-script
-	SuperLU_DIST_2.3
-	Key_script_trilinos_prschun trilinos-10.10.2-Source
-	lapack-3.2.1
-	UMFPACK-5.4
-	Makefile
-	y12m
-	make.inc
-	ParMetis-3.1.1
-  </code></pre></div>
-  <p>If you don’t have root access, and your machine has on it cmake and openmpi, then you will not need
-    these libraries. Cmake is rarer than openmpi, but in any case you want to determine whether you
-    have these. Cmake is used to build trilinos, and you can get it from the web (free downloads). Openmpi
-    is required for all packages if you are to build for parallel capability. We suggest you just build this way
-    and not worry about a serial version. In the case shown here, we didn’t have root access and and the
-    machine did not have openmpi or cmake, so we acquired them, built them, and installed them in this
-    GOMA_ROOT area.</p>
+<p>This document takes the new user step-by-step to building this large distribution, and
+ultimately building GOMA.</p>
+<p>This is a guide to build Goma 6.0 if you have no root access, and you want 
+to build a self-contained distribution from which GOMA and all its dependencies
+can be built. This build guide was constructed on Red Hat   RHEL5 and Red Hat 
+RHEL6 OS. Although  many of the tips might apply to other platforms, there are no
+promises.</p>
 
-  <p>If you have root access, and you are building on a server of some sort, you may want to acquire Cmake
-    and Openmpi and build and install in the usual default locations, like /usr/lib or /usr/local/lib etc., or
-    even in /usr/bin for the executables. You may also have a shared area to build these tools in. You can
-    also just simply work with your administrator to acquire these packages.</p>
+<div id="buildOverview">
+	<h3>Overview</h3>
+	<ol>
+		<li><p>Description and download location of each necessary directories and third-party libraries(TPLs)</p></li>
+		<li><p>Create your own directory filled with the essential directories</p></li>
+		<li><p>Build the Directories and TPLs</p></li>
+		<li><p>Build Goma</p></li>
+		<li><p>Build brk/fix</p></li>
+	</ol>
+</div>
 
-  <p>The files “about_libraries”, “Goma_howto.txt”, “Readme.libs” are information files that are helpful to
-    read. These are constantly being updated. These files can be obtained from the authors of this memo.
-    Just email them. The files “Makefile, make.inc, make_output” are global makefiles to guide the
-    building of their entire distribution in one command. As of this writing, it kindof works. We did have
-    some trouble with trilinos. When we ship you a distribution, these makefiles and the goma source will
-    be shipped along with some of the harder-to-get TPLs. This document instructs you how to get the rest.</p>
+<h3>Download Directories and TPLs</h3>
+<p>First you need to acquire the GOMA software distribution.</p>
+<p>If you don’t have root access, and your machine has on it cmake and openmpi, then you will not need
+those two libraries. Cmake is rarer than Openmpi, but in any case you want to determine whether you
+have these. Cmake is used to build trilinos. Openmpi is required for all packages if you are to build 
+for parallel capability. In this build guide, we started without Cmake and Openmpi.</p>
 
-  <p>The supporting libraries for GOMA and in turn their dependencies can be seen in the Makefile here:</p>
-  <div class="highlight"><pre><code class="text language-text" data-lang="text">
-	# Target Dependencies:
-	# Set the default target for the makefile:
-	DEFAULT_TARGET = all
-	# arpack dependent libraries
-	ARPACK_DEPENDENCIES = blas lapack
-	# arpack targets for make
-	ARPACK_MAKE_TARGETS = all
-	# front targets for make
-	FRONT_TARGET = $(MACH_LOWERCASE)_mpi
-	# trilinos dependent libraries
-	TRILINOS_DEPENDENCIES = y12m parmetis superludist umfpack
-	# trilinos configure/cmake file:
-	TRILINOS_CONF_FILE = $(MACH_LOWERCASE)-goma-$(SERPAR_LOWERCASE)-cmake
-  </code></pre></div>
-  <p>“Key-linux-mpi-cmake-script” is for building trilinos, which we will discuss below.</p>
+<p>If you have root access, and you are building on a server of some sort, you may want to acquire Cmake
+and Openmpi and build and install in the usual default locations, like /usr/lib or /usr/local/lib etc., or
+even in /usr/bin for the executables. You may also have a shared area to build these tools in. You can
+also just simply work with your administrator to acquire these packages.</p>
+<h4>Download</h4>
+<p>Here are the directories (distributions) and TPLs (third-party libraries) that are required. A brief
+description of each and how they can be acquired is given here.</p>
 
-  <p>Finally, the remaining directories (distributions) are the required TPLs (third-party libraries). A brief
-    description of each and how acquired is given here (but unless otherwise noted you may just want to
-    contact Randy Schunk and get a copy from him, as in some rare cases we changed some things in each
-    to make them compatible with the overall make file).</p>
+<p> Note: You can get all of this from our starting package if you contact us at <a href="mailto:prschun@sandia.gov">prschun@sandia.gov</a>. We will provide you with a full set of the Goma 6.0 libraries and directories necesarry to build goma.</p>
 
-  <p><code>BLAS</code>: You can get this from the internet. Open source. Easy to build. However, if you get a copy
-    from us we have already made the changes in it to make the compilers compatible.</p>
+<p><code id="libraries">AMD-2.2.4:</code> Approximate minimum degree ordering package that is essential for UMFPACK. You can download AMD-2.2.4 here: <a href="http://www.cise.ufl.edu/research/sparse/amd/"> http://www.cise.ufl.edu/research/sparse/amd/.</a></p>
 
-  <p><code>ARPACK</code>: Arnoldi Solver package. Google it. Again, you can also start with what we supply.</p>
+<p><code id="libraries">ARPACK:</code> Arnoldi Solver package. Download arpack96.tar.gz and the patch patch.tar.gz here: <a href="http://www.caam.rice.edu/software/ARPACK/">http://www.caam.rice.edu/software/ARPACK/.</a>.</p>
 
-  <p><code>SEACAS-2012-09-10</code>: Please get this from source-forge. Sandia Analysis Package with all
-    sorts of pre- and post-processing capabilities and the all important, and required exodus II
-    database libraries. <a href="http://sourceforge.net/projects/seacas">http://sourceforge.net/projects/seacas</a> You will also need netcdf and hdf5
-    packages for this but that is discussed below.</p>
+<p><code id="libraries">BLAS:</code> BLAS is the standard building blocks for performing basic vector and matrix operations. You can get this from the internet here: <a href="http://www.netlib.org/blas/">http://www.netlib.org/blas/</a>. Open source. Easy to build. 
 
-  <p><code>front</code>: please get this from Sandia. Frontal solver that is rarely used now.</p>
+<p><code id="libraries">cmake-2.8.12.2:</code> Cmake manages the build process in an operating system in a compiler-independent manner. You can get this from the internet here: <a href="http://www.cmake.org/cmake/resources/software.html">http://www.cmake.org/cmake/resources/software.html</a>. Open source. Easy to build. Make sure to get cmake-2.8.12.2.tar.gz.</p>
 
-  <p><code>Sparse</code>: sparse 1.3. You can get this from the web, but also from Sandia. Another direct solver that is
-    very robust and stable, but slow. Rarely used but important to have.</p>
+<p><code id="libraries">hdf5-1.8.13:</code> Hierarchical Data Format that is necessary for SEACAS. You can get this here: <a href="http://www.hdfgroup.org/HDF5/release/obtainsrc.html">http://www.hdfgroup.org/HDF5/release/obtainsrc.html</a>. Open source. Easy to build.</p>
 
-  <p><code>SuperLU_DIST_2.3</code>: Parallel direct solver. Important package. Acquire from the web.</p>
+<p><code id="libraries">lapack-3.2.1:</code> LAPACK is an optimized linear algebra package that trilinos packages depend upon. Get LAPACK: <a href="http://www.netlib.org/lapack/#_lapack_version_3_2_1">http://www.netlib.org/lapack/#_lapack_version_3_2_1</a></p>
 
-  <p><code>trilinos-10.10.2-Source</code>: Google trilinos and this download option will be obvious.
-    Please acquire this from the web. You will modify a provided script to build it. Trilinos is an
-    essential collection of matrix solvers and other capabilities GOMA needs.</p>
+<p><code id="libraries">netcdf-4.3.2:</code> A set of software libraries that supports SEACAS. Get netcdf-4.3.2 here: <a href="http://www.unidata.ucar.edu/downloads/netcdf/index.jsp">http://www.unidata.ucar.edu/downloads/netcdf/index.jsp</a>.</p>
 
-  <p><code>lapack-3.2.1</code>: LAPACK is an optimized linear algebra package that trilinos packages
-    depend upon. Get from Sandia.</p>
+<p><code id="libraries">openmpi-1.6.4:</code> Message Passing Interface. Get Openmpi-1.6.4: <a href="http://www.open-mpi.org/software/ompi/v1.6/">http://www.open-mpi.org/software/ompi/v1.6/</a>.</p>
 
-  <p><code>UMFPACK-5.4</code>: UMFPACK is the most often used direct solver. Probably need to acquire this
-    from Sandia as of now as we have changes the build slightly.</p>
+<p><code id="libraries">ParMetis-3.1.1:</code> Parallel graph partitioning library. Certain packages in Trilinos require this. Get ParMetis-3.1.1: <a href="http://glaros.dtc.umn.edu/gkhome/fsroot/sw/parmetis/OLD">http://glaros.dtc.umn.edu/gkhome/fsroot/sw/parmetis/OLD</a></p>
 
-  <p><code>ParMetis-3.1.1</code>: Parallel graph partitioning library. Certain packages in Trilinos require
-    this.</p>
 
-  <p><code>Y12M</code>: Yet another matrix solver required by certain packages in trilinos and goma.</p>
+<p><code id="libraries">SEACAS-2013-12-03:</code> Please get this from source-forge. Sandia Analysis Package with all
+sorts of pre- and post-processing capabilities and the all important, and required exodus II
+database libraries. <a href="http://sourceforge.net/projects/seacas">http://sourceforge.net/projects/seacas</a> You will also need netcdf and hdf5
+packages for this.</p>
 
-  <p>The remainder of this document takes the new user step-by-step to building this large distribution, and
-    ultimately building GOMA. These notes aren’t perfect.</p>
+<p><code id="libraries">Sparse:</code> sparse 1.4. You can get this from the web, but also from Sandia. Another direct solver that is
+very robust and stable, but slow. Rarely used but important to have. Get sparse: <a href="http://sourceforge.net/projects/sparse/files/">http://sourceforge.net/projects/sparse/files/</a></p>
 
-  <ol>
-    <li>Compilers, other libraries
-      <p>
-      Make sure that all the compilers and dependent libraries for building/installing are installed on your machine. Specifically, make sure gcc, cmake and openmpi are installed. Trillnos 10 requires cmake version 2.7 or higher. SEAMS requires gcc, g++ and gfortran version 4.1 or higher. Download netcdf and HDF5. Copy the HDF5 distribution to ACCESS/TPL/hdf5 directory.</p>
+<p><code id="libraries">SuperLU_DIST_2.3:</code> Parallel direct solver. Important package. Make sure to get SuperLU version 2.3. Acquire here: <a href="http://crd-legacy.lbl.gov/~xiaoye/SuperLU/">http://crd-legacy.lbl.gov/~xiaoye/SuperLU/</a>.</p>
 
-      <p>Some notes on acquiring these compilers and libraries:</p>
-      
-      <ul>
-	<li> cmake-2.8.10.2 package should work from the cmake website. Others above 2.7 should work too. Download it. Build and install as follows:</li>
-	<ul>
-	  <li><code>gunzip cmake-2.8.10.2.tar.gz</code></li>
-	  <li><code>tar xvf cmake-2.8.10.2.tar</code></li>
-	  <li><code>cd cmake-2.8.10.2</code></li>
-	  <li><code>./configure --prefix=/home/goma&lt;full path to cmake directory&gt;/cmake-2.8.10.2</code> you can also install in /usr/bin if you have root access</li>
-	  <li><code>make</code></li>
-	  <li><code>make install</code></li>
-	</ul>
-      </ul>
-      
-      <ul>
-	<li>openmpi-1.6.3 package is also the right level right now. Acquire it and build as follows:
-	  <ul>
-	    <li><code>gunzip openmpi-1.6.3.tar.gz</code></li>
-	    <li><code>tar –xvf openmpi-1.6.3</code></li>
-	    <li><code>./configure –prefix=/home/goma/….&lt;full path to openmpi directory&gt;/openmpi-1.6.3</code>
-	      (You can also install in /usr/bin, etc. if you have root access. )</li>
-	    <li><code>make all install</code></li>
-	  </ul>
-	</li>
-      </ul>
-      <ul>
-	<li>gcc, gfortran, g++ are likely installed in default /usr/bin and associated libraries in
+<p><code id="libraries">trilinos-11.8.1-Source:</code> Google trilinos and this download option will be obvious.
+Please acquire trilinos-11.8.1 here: <a href="http://trilinos.sandia.gov/download/files/trilinos-11.8.1-Source.tar.gz">http://trilinos.sandia.gov/download/files/trilinos-11.8.1-Source.tar.gz</a> You will modify a provided script to build it. Trilinos is an
+essential collection of matrix solvers and other capabilities GOMA needs.</p>
+
+<p><code id="libraries">UFconfig-3.7.1:</code> A key component for UMFPACK. Get here:<a href="http://www.cise.ufl.edu/research/sparse/UFconfig/">http://www.cise.ufl.edu/research/sparse/UFconfig/</a></p>
+
+<p><code id="libraries">UMFPACK-5.4:</code> UMFPACK is the most often used direct solver. Acquire UMFPACK here: <a href="http://www.cise.ufl.edu/research/sparse/umfpack/">http://www.cise.ufl.edu/research/sparse/umfpack/</a>.</p>
+
+<p><code id="libraries">Y12M:</code> Yet another matrix solver required by certain packages in trilinos and goma. Get Y12M: <a href="http://www.netlib.org/cgi-bin/netlibfiles.pl?filename=/y12m/y12m.f">http://www.netlib.org/cgi-bin/netlibfiles.pl?filename=/y12m/y12m.f</a></p>
+
+
+<h3>Configure and Make Directories</h3>
+<p>Create a folder that will contain all of the necessary directories you have just downloaded or your "GOMA_ROOT"</p>
+
+<h4>Untar Downloaded Directories</h4>
+<p> cd into the folder you want to store all of the directories and libraries and start extracting the downloaded files</P>
+
+<li>Untar ARPACK<code id="libraries">tar -xzvf ~/Desktop/Downloads/arpack96.tar.gz</code></li>
+<p></p>
+<li>Untar ARPACK Patch<code id="libraries">tar -xzvf ~/Desktop/Downloads/arpackPatch.tar.gz</code></li>
+<p></p>	
+<li>Untar openmpi<code id="libraries">tar -xzvf ~/Desktop/Downloads/openmpi-1.6.4.tar.gz</code></li>
+<p></p>	
+<li>Untar BLAS<code id="libraries">tar -xzvf ~/Desktop/Downloads/blas.tgz</code></li>
+<p></p>	
+<li>Untar Cmake<code id="libraries">tar -xzvf ~/Desktop/Downloads/cmake-2.8.12.2.tar.gz</code></li>
+<p></p>
+<li>Untar sparse<code id="libraries">tar -xzvf ~/Desktop/Downloads/sparse1.4b.tar.gz</code></li>
+<p></p>
+<li>Untar SuperLU<code id="libraries">tar -xzvf ~/Desktop/Downloads/superlu_dist_2.3.tar.gz</code></li>
+<p></p>
+<li>Untar lapack<code id="libraries">tar -xzvf ~/Desktop/Downloads/lapack-3.2.1.tgz</code></li>
+<p></p>
+<li>Untar y12m<code id="libraries">tar -xzvf ~/Desktop/Downloads/netlibfiles.tgz</code></li>
+<p></p>
+<li>Untar ParMetis<code id="libraries">tar -xzvf ~/Desktop/Downloads/ParMetis-3.1.1.tar.gz</code></li>
+<p></p>
+<li>Untar trilinos<code id="libraries">tar -xzvf ~/Desktop/Downloads/trilinos-11.8.1-Source.tar.gz</code></li>
+<p></p>
+<li>Untar SEACAS-2013-12-03<code id="libraries">tar -xzvf ~/Desktop/Downloads/Seacas2013-12-03.tar.gz</code></li>
+
+<li>Your SEACAS will be named 2013-12-03 after it is initially untared, rename it to Seacas-2013-12-03</li>
+<li>CD into Seacas-2013-12-03/TPL/hdf5</li>
+<li>untar hdf5<code id="libraries">tar -xzvf ~/Desktop/Downloads/hdf5-1.8.13.tar.gz</code></li>
+<li>rename the new hdf5 directory to hdf5-source</li>
+<p></p>
+<li>CD into Seacas-2013-12-03/TPL/netcdf</li>
+<li>untar netcdf:<code id="libraries">tar -xzvf ~/Desktop/Downloads/netcdf-4.3.2.tar.gz</code></li>
+<p></p>
+<li>CD into your "GOMA_ROOT" and make a directory called UMFPACK-5.4</li>
+<li>cd into UMFPACK-5.4 and untar UMFPACK<code id="libraries">tar -xzvf ~/Desktop/Downloads/UMFPACK-5.4.0.tar.gz</code></li>
+<li>In the same directory, untar AMD<code id="libraries">tar -xzvf ~/Desktop/Downloads/AMD-2.2.4.tar.gz</code></li>
+<li>In the same directory, untar UFconfig<code id="libraries">tar -xzvf ~/Desktop/Downloads/UFconfig-3.7.1.tar.gz</code></li>
+<p></p>
+
+<p>Make sure that all the compilers and dependent libraries for building/installing are installed on your machine. Specifically, make sure gcc, cmake and openmpi are installed. Trillnos 10 requires cmake version 2.7 or higher. SEAMS requires gcc, g++ and gfortran version 4.1 or higher. Download netcdf and HDF5. Copy the HDF5 distribution to ACCESS/TPL/hdf5 directory.</p>
+
+<p>Now that you have extracted all of the downloaded files, your directories and files should look like this in your “GOMA_ROOT” area:</p>
+<div class="highlight">
+
+<pre> <code class="text language-text" data-lang="text">
+ARPACK
+BLAS
+cmake-2.8.12.2
+lapack-3.2.1
+openmpi-1.6.4	
+ParMetis-3.1.1
+Seacas-2013-12-03
+sparse
+SuperLU_DIST_2.3
+trilinos-11.8.1-Built
+trilinos-11.8.1-Source
+trilinos-11.8.1-Temp
+UMFPACK-5.4
+y12m
+</code></pre></div>
+
+
+<h3> Build the Libraries</h3>
+<ol>
+<li>
+<h4>Compilers, other libraries</h4>
+
+<p>Some notes on acquiring these compilers and libraries:</p>
+
+<ul>
+	<li> cmake-2.8.12.2 package should work from the cmake website. Others above 2.7 should work too. Build and install as follows:</li>
+<ul>
+
+<li><code id="libraries">cd cmake-2.8.10.2</code></li>
+<li><code id="libraries">./bootstrap --prefix=/home/goma&lt;full path to cmake directory&gt;/cmake-2.8.10.2</code> you can also install in /usr/bin if you have root access</li>
+<li><code id="libraries">make</code></li>
+<li><code id="libraries">make install</code></li>
+</ul>
+</ul>
+
+<ul>
+<li>openmpi-1.6.4 package is also the right level right now. Build as follows:
+<ul>
+<li><code id="libraries">cd openmpi-1.6.4</code></li>
+<li><code id="libraries">./configure --prefix=/home/goma/….&lt;full path to openmpi directory&gt;/openmpi-1.6.4</code>
+(You can also install in /usr/bin, etc. if you have root access. )</li>
+<li><code id="libraries">make</code></li>
+<li><code id="libraries">make install</code></li>
+</ul>
+</li>
+</ul>
+
+
+<ul>
+<li>gcc, gfortran, g++ are likely installed in default /usr/bin and associated libraries in
 /usr/local/lib or /usr/lib. If not, find where the libraries are. I.E. on a new rhel6
 machine with the compilers installed in default locations, the libraries may be in
 something like /usr/lib/gcc/x86_64-redhat-linux/4.4.4 or something like this.. you are
 going to want these in your LD_LIBRARY_PATH. See below.
-	</li>
-      </ul>
+</li>
+</ul>
 
-      <ul>
-	<li>Finally, the netcdf and hdf5 libraries which are required by SEAMS and SEACAS are real
-	  tricky where to place. You don’t need to build them as they are built as a part of the
-	  SEACAS build script. Netcdf is discussed below. On hdf5 do the following:
-	  <ul>
-	    <li>Acquire hdf5 from website, viz. <code>hdf5-1.8.9.tar</code> works</li>
-	    <li>place this tarball in  <code>$GOMA_ROOT/SEACAS-2012-09-10/TPL/hdf5</code></li>
-	    <li>unroll it there <code>tar –xvf hdf5-1.8.9.tar</code></li>
-	    <li>rename the directory <code>mv hdf5-1.8.9 hdf5-source</code></li>
-	  </ul>
-	</li>
-      </ul>
-    </li>
-    <li>
-      ACCESS/SEAMS Build:
-      <ol>
-	<li>
-	  Unpack the ACCESS distribution. We unroll it in the $GOMA_ROOT directory, but you can put it
-	  anywhere. Note on hdf5 and netcdf as discussed above, you still place them in the TPL
-	  subdirectories wherever you put SEAMS. Henceforth in this discussion ACCESSROOT will be
-	  the path to the SEAMS distribution. In this example, it would be
-	  <pre>
+</li>
+<li>
+<h4> ACCESS/SEACAS/SEAMS Build:</h4>
+</li>
 
-    ACCESSROOT = $GOMA_ROOT/SEACAS-2012-09-10
-	  </pre>
-	</li>
-	<li>
-	  Download netcdf. The most recent released version (currently 4.1.3) is recommended.
-	  Untar the distribution in the ACCESSROOT/TPL/netcdf/ directory which already exists. You wil now
-	  have a netcdf-4.1.3 directory under this netcdf directory.
-	  <ul>
-	    <li>If the untar does not create a netcdf-4.1.3 directory, modify the makefile in the current directory
-	      such that V_NUM specifies the correct name.</li>
-	    <li>Modify the following defines in include/netcdf.h
+<p>
+In this discussion ACCESSROOT will be
+the path to the SEAMS distribution. In this example, it would be
+<pre>
+
+ACCESSROOT = $GOMA_ROOT/SEACAS-2013-12-03
+</pre>
+</p>
+<ol>
+<h5>
+Building your ACCESSROOT: 
+</h5>
+<li>
+<ul>
+<li>Modify the following defines in Seacas-2013-12-03/TPL/netcdf/netcdf-4.3.2/include/netcdf.h
 <pre>
 #define NC_MAX_DIMS 65536 /* max dimensions per file */
 #define NC_MAX_VARS 524288 /* max variables per file */
 #define NC_MAX_VAR_DIMS 8 /* max per variable dimensions */
 </pre>
-	    </li>
-	  </ul>
-	</li>
-	<li>
-	  cd back to the top-level 'seacas' subdirectory
-	  <ul><li>You can also rename 'seacas' to any other name you desire.</li></ul>
-	</li>
-	<li>
-	  The current directory (seacas unless you renamed if) will be your ACCESS root. Set the
-	  environment variable ACCESS to point to this area.
-	  <ul><li><code>setenv ACCESS `pwd`</code> (csh/tcsh)</li>
-		<li><code>export ACCESS=`pwd`</code> (sh/bash)</li></ul>
-	  In this example, you can also simply do:
-	  <pre>setenv ACCESS $GOMA_ROOT/SEACAS-2012-09-10</pre>
-	  <p>
-	  If you do an 'ls $ACCESS/ACCESS', you should see something similar to:
-	  <pre>applications Imakefile itools libraries netcdf scripts serial_mpi</pre>
-	  </p>
-	</li>
+</li>
+</ul>
+</li>
+<li>
+cd back to the top-level Seacas-2013-12-03 subdirectory
+</li>
+<li>
+The current directory Seacas-2013-12-03 will be your ACCESS root. Set the
+environment variable ACCESS to point to this area.
+<ul><li><code id="libraries">setenv ACCESS `pwd`</code> (csh/tcsh)</li>
+<li><code id="libraries">export ACCESS=`pwd`</code> (sh/bash)</li></ul>
+In this example, you can also simply do:
+<pre>setenv ACCESS $GOMA_ROOT/SEACAS-2013-12-03</pre>
+<p>
+If you do an 'ls $ACCESS/ACCESS', you should see something similar to:
+<pre>applications Imakefile itools libraries netcdf scripts serial_mpi</pre>
+</p>
+</li>
 
-	<li>
-	  Move into the $ACCESS/ACCESS/itools/config/cf directory and edit the 'site.def' and the
-	  configuration file associated with your platform (e.g. linux.cf for linux OS; darwin.cf for MacOS)
-	  <ol>
-	    <li>
-	      <p>The 'site.def' file contains settings that determine where ACCESS is going to be installed, who
-	      owns the source, and where the X11 libraries and includes files are located on your system</p>
-	      <p>The following setting should be entered in the site.def file:</p>
-	      <pre>#define AccessRoot - path to ACCESS source directory</pre>
-	      <p>It should be the same directory path as you set as the ACCESS environment variable.</p>
-	      <pre>
+<li>
+Move into the $ACCESS/ACCESS/itools/config/cf directory and edit the 'site.def' and the
+configuration file associated with your platform (e.g. linux.cf for linux OS; darwin.cf for MacOS)
+<ol>
+<li>
+<p>The 'site.def' file contains settings that determine where ACCESS is going to be installed, who
+owns the source, and where the X11 libraries and includes files are located on your system</p>
+<p>The following setting should be entered in the site.def file:</p>
+<pre>#define AccessRoot - path to ACCESS source directory</pre>
+<p>It should be the same directory path as you set as the ACCESS environment variable.</p>
+<pre>
 #define Owner owner_username
 #define Group group_name</pre>
-	      <p>The owner and group name of the user installing the code should be set.</p>
-	      <pre>#define BuildSharedExodusLibrary YES</pre>
-	      <p>Leave this set to YES unless there are problems building shared libraries on your system.</p>
-	      <pre>#define UseNetcdf4 NO or YES</pre>
-	      <p>Set to YES to use the new hdf5-based netcdf-4; leave as NO to use the classic netcdf-4.</p>
-	      <pre>#define HDF5_Root AccessRoot</pre>
-	      <p>NOTE HERE: This HDF5_Root define is LITERAL. Don’t try to outsmart it and make this the
-	      path all the way down to HDF5.</p>
-	      <p>If UseNetcdf4 is YES, then HDF5_Root needs to point to the root of an installed HDF5 library 
-		(both libhdf5.a and libhdf5_hl.a) and include files. HDF5_Root/lib holds the libs and
-	      HDF5_Root/include has the include files.</p> 
-	      <blockquote><p>PRS NOTES: This is confusing. What this means is that
-	      the $ACCESS/lib directory will contain libhdf6.a when it is built. Not where it is built. When
-	      installed these libraries will end up in $ACCESS/bin and $ACCESS/lib</p>
-	      </blockquote>
-	      <pre>
+<p>The owner and group name of the user installing the code should be set.</p>
+<pre>#define BuildSharedExodusLibrary YES</pre>
+<p>Leave this set to YES unless there are problems building shared libraries on your system.</p>
+<pre>#define UseNetcdf4 NO or YES</pre>
+<p>Set to YES to use the new hdf5-based netcdf-4; leave as NO to use the classic netcdf-4.</p>
+<pre>#define HDF5_Root AccessRoot</pre>
+<p>NOTE HERE: This HDF5_Root define is LITERAL. Don’t try to outsmart it and make this the
+path all the way down to HDF5.</p>
+<p>If UseNetcdf4 is YES, then HDF5_Root needs to point to the root of an installed HDF5 library 
+(both libhdf5.a and libhdf5_hl.a) and include files. HDF5_Root/lib holds the libs and
+HDF5_Root/include has the include files.</p> 
+<p>PRS NOTES: This is confusing. What this means is that
+the $ACCESS/lib directory will contain libhdf6.a when it is built. Not where it is built. When
+installed these libraries will end up in $ACCESS/bin and $ACCESS/lib</p>
+
+<pre>
 #define ExcludeAnalysis
 #define Parallel 0</pre>
-	      <p>The above parallel setting is used for building and installing the analysis codes on parallel machines.
-	      This should be set to 0 unless you are building and installing the jas3d or pronto3d analysis codes on
-	      a parallel machine; in that case, it should be set to 2.</p>
-	      <pre>#define Platform normal</pre>
-	      <p>For most cases, leave the Platform define as "normal"; however
-	      <ul>
-		<li>if building on "interix", define it as interix;</li>
-		<li>if building for "redstorm", define it as redstorm;</li>
-	      </ul>
-	      </p>
-	      <pre>#define HasMatlab NO</pre>
-	      <p>If the system has Matlab libraries and includes, change the definition of HasMatlab in the
-	      following line from NO to YES, and check the definition of MatlabLibraries and MatlabIncludes down
-	      below.</p>
-	      </li>
-	    <li>
-	      <p>platform.cf (platform=hardware or os type) [linux.cf, darwin.cf]. The platform.cf configuration
-	      file contains system-specific settings; in particular compiler paths. The linux.cf file is the most
-	      complicated due to the multitude of compilers available. Pick the define corresponding to the
-	      compilers you will be using and then search for that #if block and make sure paths are correct; the
-	      paths typically only need changing for parallel compiles and if your system has multiple versions of
-	      compilers.<p>
-	      <p>In a recent fresh build on a RHEL6 machine, I chose :</p>
-	      <pre>#define GCC4GFORTRAN 1</pre>
-	      <p>as I planned on using the gnu compilers.</p>
-	      <p>If you are building on a 64-bit system, define Build64BitAccess YES.</p>
-	      <p>NOTE: If you are using a gcc version prior to 4.1, then you cannot build the fortran-based utilities for
-	      64-bit systems; you must do a 32-bit build. If you are using a non-gnu compiler or using gcc-4.1.0 or later
-	      (which gfortran as the fortran compiler), you can do a 64-bit build.</p>
-	      <p>NOTE: If you are building on MacOS and using the Mac ports compilers, then define USE_MACPORTS as
-	      the version number of the compiler (4.4, 4.5, 4.6, ...)</p>
-	      <p>Before you go onto the next steps, you probably should update your environment variables through
-	      your .cshrc or .bashrc startup config or from the command line to make sure all the paths are in order to
-	      compilers and libraries. Specifically:</p>
-	      <pre>
+<p>The above parallel setting is used for building and installing the analysis codes on parallel machines.
+This should be set to 0 unless you are building and installing the jas3d or pronto3d analysis codes on
+a parallel machine; in that case, it should be set to 2.</p>
+<pre>#define Platform normal</pre>
+<p>For most cases, leave the Platform define as "normal"; however
+<ul>
+<li>if building on "interix", define it as interix;</li>
+<li>if building for "redstorm", define it as redstorm;</li>
+</ul>
+</p>
+<pre>#define HasMatlab NO</pre>
+<p>If the system has Matlab libraries and includes, change the definition of HasMatlab in the
+following line from NO to YES, and check the definition of MatlabLibraries and MatlabIncludes down
+below.</p>
+</li>
+<li>
+<p>next edit your platform.cf in the same cf directory(platform=hardware or os type) [linux.cf, darwin.cf]. The platform.cf configuration
+file contains system-specific settings; in particular compiler paths. The linux.cf file is the most
+complicated due to the multitude of compilers available. Pick the define corresponding to the
+compilers you will be using and then search for that #if block and make sure paths are correct; the
+paths typically only need changing for parallel compiles and if your system has multiple versions of
+compilers.<p>
+<p>In a recent fresh build on a RHEL6 machine, I chose :</p>
+<pre>#define GCC4GFORTRAN 1</pre>
+<p>I also edited the #define X11Includes from:</p>
+<pre>#define X11Includes -I/usr/include/X11R6</pre>
+<p>To:</p>
+<pre>#define X11Includes -I/usr/include/X11</pre>
+<p>as I planned on using the gnu compilers.</p>
+<p>If you are building on a 64-bit system, define Build64BitAccess YES.</p>
+<p>NOTE: If you are using a gcc version prior to 4.1, then you cannot build the fortran-based utilities for
+64-bit systems; you must do a 32-bit build. If you are using a non-gnu compiler or using gcc-4.1.0 or later
+(which gfortran as the fortran compiler), you can do a 64-bit build.</p>
+<p>NOTE: If you are building on MacOS and using the Mac ports compilers, then define USE_MACPORTS as
+the version number of the compiler (4.4, 4.5, 4.6, ...)</p>
+<p>Before you go onto the next steps, you probably should update your environment variables through
+your .cshrc or .bashrc startup config or from the command line to make sure all the paths are in order to
+compilers and libraries. Specifically:</p>
+<pre>
 setenv LD_LIBRARY_PATH &gt;full path to openmpi/lib&lt;:$LD_LIBRARY_PATH
 setenv PATH /usr/…fullpath to openmpi/bin:$PATH</pre>
-	      <p>Of course the serial gcc, gfortran compilers should also be in your path.</p>
-	    </li>
-	  </ol>
-	  <li>
-	    <p>Use the script ACCESS/scripts/buildSEACAS, which enters the commands for you. You should be in
-	    the directory specified as your AccessRoot in step 3 above. Then enter:</p>
-	    <pre>sh ACCESS/scripts/buildSEACAS</pre>
-	    <p>and follow the prompts. Real important here, though, to be patient and to continue with the build (by
-	    entering “c” if you examine the error and deem it irrelevant. I had to do this about 4 times in some of
-	    the obscure TPL libraries and SEAMS still built fine.</p>
-	  </li>
+<p>Of course the serial gcc, gfortran compilers should also be in your path.</p>
+</li>
 
-	  <li><p>If you encounter the following error(s) during the build process, check to see if the corresponding
-	    dependency packages are installed or simply make the fix has suggested:</p>
+<h4>IMPORTANT: go into netcdf and hdf5 Makefiles and make sure that the version number is correct to the versions you downloaded</h4>
+</ol>
 
-	    <p>netcdf.h needs to be extracted from the netcdf library under TPL/netcdf and placed into $ACCESS/inc</p>
+<li>
+<p>Use the script ACCESS/scripts/buildSEACAS, which enters the commands for you. You should be in
+the directory specified as your AccessRoot in step 3 above. Then enter:</p>
+<pre>sh ACCESS/scripts/buildSEACAS</pre>
+<p>and follow the prompts. Real important here, though, to be patient and to continue with the build (by
+entering “c” if you examine the error and deem it irrelevant. I had to do this about 4 times in some of
+the obscure TPL libraries and SEAMS still built fine.</p>
+</li>
 
-	    <p>x11_vdix11.c:463:22: error: X11/Xlib.h: No such file or directory – Install libX11-devel dependency
-	    package. I did have to change linux.cf to point to /usr/include/X11 instead of X11R6</p>
+<li><p>If you encounter the following error(s) during the build process, check to see if the corresponding
+dependency packages are installed or simply make the fix has suggested:</p>
 
-	    <p>sudo yum whatprovides “*/Xlib.h” shows its these developer tools.</p>
-	    <p>Also, NOTE, if zlib.h is not found, or libz.a then just turn OFF the #define UseNetcdf4 NO or YES in
-	    site.def</p>
-	    <p>An excerpt from Greg Sjaardema’s reply to an inquiry here:
-	      <blockquote><p>A workaround is to change the #define UseNetcdf4 YES to NO in
-		  ACCESS/itools/config/cf/site.def. This shouldn't affect too much unless
-		  you are planning really big meshes (> 500 Million elements...)</p></blockquote></p>
-	    <p>output.c:24:20: error: curses.h: No such file or directory – Install ncurses-devel package.</p>
-	    <p>zlib.h not found – Install zlib-devel package. Also, you might need the openmpi-devel package.</p>
-	  </li>
-      </ol>
-    <li>
-      <p>Third party libraries (including Trilinos):</p>
-      <p>First, read the user's guide section in Readme.libs. The only modifications that should need to be
-	made if mpi or gcc compilers are used should be in make.inc.</p>
-      <p>You will try to build these first using the overall makefile in the top level directory. This makefile
-	guides the building of every package but SEACAS. It tends to choke on trilinos, so you may need to
-	build that individually.</p>
-      <p>Only after modifying make.inc, where you set the compiler locations and the cmake locations, you
-	can try running make.</p>
-      <pre>make</pre>
-      <ul>
-	<li>
-	  <p><code>make help</code> gives a good basic summary of the commands enabled within the TPL makefile.</p>
-	</li>
-	<li>
-	  <p>You will need to deal with some smallish errors as the packages are being built. Look in
-	  make_output directory for the error descriptions. For instance, I had to deal with the
-	  following most recently:</p>
-	  <ul>
-	    <li><p>ARPACK: I had to go grab mpif.h from the openmpi/include directory and put it into
-		the directory instructed by ARmake.inc<p></li>
-	    <li>Other minor annoyances I had to track down and fix.</li>
-	    <li>Ultimately, this script will hang on the trilinos build. To build trilinos individually, do
-	      the following:</li>
-	    <ul>
-	      <li>Go to a scratch area on your machine. /scratch or someplace where there is
-		plenty of disk space.</li>
-	      <li>Make a build directory for trilinos there, like mkdir trilinos_build</li>
-	      <li>cd trilinos_build</li>
-	      <li>cp $GOMA_ROOT/Key-linux-mpi-cmake-script .</li>
-	      <li>Modify all of the library locations as necessary in
-		this script.
-		Specifally pay attention to the
-		fortran library. It worked better when I just set
-		this directly to the library path:</li>
-	      <pre>FORTRAN_LIBS=”/usr/lib/gcc/x86_64_linux_/4.4.4/libgfortran.a”</pre>
-	      <li>Make sure all other cmake directives are pointing to
-		the correct libraries. They may be a lot of them.</li>
-	      
-	      <pre>
-sh key-linux-mpi-cmake-script
-make (this takes about 2 hours)
+<p>netcdf.h needs to be extracted from the netcdf library under TPL/netcdf and placed into $ACCESS/inc</p>
+
+<p>x11_vdix11.c:463:22: error: X11/Xlib.h: No such file or directory – Install libX11-devel dependency
+package. I did have to change linux.cf to point to /usr/include/X11 instead of X11R6</p>
+
+<p>sudo yum whatprovides “*/Xlib.h” shows its these developer tools.</p>
+<p>Also, NOTE, if zlib.h is not found, or libz.a then just turn OFF the #define UseNetcdf4 NO or YES in
+site.def</p>
+<p>An excerpt from Greg Sjaardema’s reply to an inquiry here:
+<blockquote><p>A workaround is to change the #define UseNetcdf4 YES to NO in
+ACCESS/itools/config/cf/site.def. This shouldn't affect too much unless
+you are planning really big meshes (> 500 Million elements...)</p></blockquote></p>
+<p>output.c:24:20: error: curses.h: No such file or directory – Install ncurses-devel package.</p>
+<p>zlib.h not found – Install zlib-devel package. Also, you might need the openmpi-devel package.</p>
+</li>
+</ol>
+<li>
+<h4>Third party libraries (including Trilinos):</h4>
+<p>First, read the user's guide section in Readme.libs. The only modifications that should need to be
+made if mpi or gcc compilers are used should be in make.inc.</p>
+<p>You will try to build these first using the overall makefile in the top level directory. This makefile
+guides the building of every package but SEACAS. It tends to choke on trilinos, so you may need to
+build that individually.</p>
+<p>Only after modifying make.inc, where you set the compiler locations and the cmake locations, you
+can try running make.</p>
+<pre>make</pre>
+<ul>
+<li>
+<p><code id="libraries">make help</code> gives a good basic summary of the commands enabled within the TPL makefile.</p>
+</li>
+<li>
+<p>You will need to deal with some smallish errors as the packages are being built. Look in
+make_output directory for the error descriptions. </p>
+<ul>
+<li>Make the BLAS library.
+<ul>
+<li><code id="libraries">cd BLAS</code></li>
+<li><code id="libraries">make</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Make ParMetis library.
+<ul>
+<li><code id="libraries">cd ParMetis-3.1.1</code></li>
+<li><code id="libraries">make</code></li>
+</ul>
+</li>
+</ul>
+<li>Make ARPACK library. Build as follows:
+<ul>
+<li><code id="libraries">cd ARPACK</code></li>
+<li>Edit the ARmake.inc file</li>
+<li>Inside the ARmake.inc file edit the home function to resemble where you untared your ARPACK and change your flags</li>
+<li>For us, we changed home to <code id="libraries">$(HOME)/GOMA_ROOT/ARPACK</code></li>
+<li>We then changed FC to equal f95</li>
+<li>go back to the ARPACK dir and issue the command:<code id="libraries">make all</code></li>
+</ul>
+</li>
+
+<li>Make SuperLU library. Build as follows:
+<ul>
+<li><code id="libraries">cd SuperLU_DIST_2.3</code></li>
+<li>Edit the make.inc file</li>
+<li>Inside the make.inc file set PLAT equal to nothing, edit the DSuperLUroot, edit the BLASLIB, edit the METISLIB and PARMETISLIB, set ARCHFLAGS to -rc, set RANLIB to echo, set CC to mpicc set FORTRAN to mpif90, LOADER to mpicc, and edit CDEFS to equal -Dadd_. </li>
+<li>Go to the ARPACK dir and issue the command:<code id="libraries">make</code></li>
+<li>Go back inside the make.inc file and delete any unrecognized flags. </li>
+<li>Run: <code id="libraries">make</code></li>
+</ul>
+</li>
+
+<li>Make lapack library. Build as follows:
+<ul>
+<li><code id="libraries">cd lapack-3.2.1</code></li>
+<li>make the make.inc.example into a make.inc</li>
+<li>edit the BLASLIB in the new make.inc to find your BLAS lib.a</li>
+<li>For us, we changed BLASLIB to $(home)/GOMA_ROOT/BLAS/blas_LINUX.a</code></li>
+<li>in lapack-3.2.1 run:<code id="libraries">make</code></li>
+</ul>
+</li>
+
+
+<li>Make the sparse library.
+<ul>
+<li><code id="libraries">cd sparse/src</code></li>
+<li><code id="libraries">make</code></li>
+</ul>
+</li>
+
+
+
+<li>Make the UMFPACK library.
+<ul>
+<li>cd to UF config and edit the UFconfig.mk file</li>
+<li>Inside the UFconfig.mk file add AR and ARFLAGS between RANLIB and ARCHIVE. Then make AR, ARFLAGS, and ARCHIVE equal ar cr. Then set the BLAS and LAPACK to find the correct BLAS and lapack libraries. Set the UMFPACK_CONFIG equal to -DNCHOLMOD.</li>
+<li>cd into UMFPACK and run: <code id="libraries">make</code></li>
+</ul>
+</li>
+
+
+<li>Make the Trilinos library.
+<ul>
+<li>Get the trilinos build key from our website and move it into the trilinos-11.8.1-Source file.</li>
+<li>Make a new directory named trilinos-11.8.1-&lt;trilinos build name&gt;</li>
+<li>cd into trilinos-11.8.1-&lt;trilinos build name&gt; and run: <code id="libraries">../trilinos-11.8.1-Source/Key</code></li>
+<li>Then run: <code id="libraries">make</code> and <code id="libraries">make isntall</code></li>
+</ul>
+</li>
+</ul>
+</ol>
+<h3>Build Goma</h3>
+
+
+<!--	WORK HERE!!!	WORK HERE!!!	WORK HERE!!! -->	
+
+<li>
+GOMA:
+<ul>
+<li>Go to the GitHub page goma/goma.</li>
+<li>make a directory seprate from your GOMA_ROOT to build Goma.</li>
+<li>Copy the HTTPS clone URL on the right hand side of the page, then cd into your new Goma directory and run <code id="libraries">git clone <Goma URL></code></li>
+</ul>
+<p>After the suitable makefile is chosen, read through the makefile itself to find the macros that need
+changing. Common macros include:</p>
+<pre>MACH, ARCH, GOMA_LIBS, MPI_TOP, GCC_TOP, SEAMS_DIR, TRILINOS_ARCH</pre>
+<p>After making sure that the paths are set correctly, run:</p>
+<pre>make
 make install</pre>
-	      
-	      <p>note that you may want to rerun the linux script if
-	      libraries are updated/changed. Reissuing a make just
-	      picks up where it left off.
-	      Also, if an error is
-	      persistent in the cmake step, blow away the entire
-	      build directory and create a new one and start over
-	      with the updated script.</p>
+<p>I did not run into any issues with building goma. Just make sure all the paths are pointed to the correct
+compilers and the libraries.</p>
+</li>
 
-	      <li> Ignore this error:</li>
-	      <pre>rm: cannot remove `CMakeCache.txt': No such file or directory</pre>
 
-	    </ul>
-	    <p>There were a couple headers files (umfpack.h and amd.h) that were missing from the amesos
-	      source directory which prevented amesos from building. I had copy them over from the UMFPACK
-	      and AMD directories.</p>
-	  </ul>
-	</li>
-	</ul>
+<h4>Build brk/fix</h4>
+<li><p>brk/fix:</p>
+<ul>
+	<li>Go to the GitHub page goma/brkfix.</li>
+	<li>make a directory seprate from your GOMA_ROOT to build Goma.</li>
+	<li>Copy the HTTPS clone URL on the right hand side of the page, then cd into your new Goma directory and run <code id="libraries">git clone <Goma URL></code></li>
+</ul>
+<p>Check the following macros before doing a make.</p>
 
-	<li><p>brk/fix:</p>
-	  <p>Check the following macros before doing a make.</p>
-	  <pre>
+<pre>
 CC
 ACCESS
 COPTIMIZEFLAGS</pre>
-	  <p>Brk/fix compiled without any major issues.</p>
 
-	</li>
-	<li>
-	  GOMA:
-	  <p>After the suitable makefile is chosen, read through the makefile itself to find the macros that need
-	    changing. Common macros include:</p>
-	  <pre>MACH, ARCH, GOMA_LIBS, MPI_TOP, GCC_TOP, SEAMS_DIR, TRILINOS_ARCH</pre>
-	  <p>After making sure that the paths are set correctly, run:</p>
-	  <pre>make -f Makefile_***</pre>
-	  <p>I did not run into any issues with building goma. Just make sure all the paths are pointed to the correct
-	    compilers and the libraries.</p>
-	</li>
-    </ol>
-</div>
+<p>Brk/fix compiled without any major issues.</p>
+
+</li>

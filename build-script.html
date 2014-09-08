@@ -1,0 +1,26 @@
+---
+layout: default
+title: Goma dependencies build script
+---
+
+<h1>Goma 6.0 Dependencies build script</h1>
+<p>6/20/2014 – C. J. Miner</p>
+
+<p>Welcome to the new BETA Quick-Build page for Goma 6.0! We have made a run script that will allow you to easily download all of the necesarry supporting files for Goma 6.0, and we have also included simple instructions on how to correctly configure Goma 6.0 so that it is ready for immediate use!</p>
+
+<p>This script has been tested on CentOS 6 and Redhat 6</p>
+
+<h3>Download the Goma Library Build script</h3>
+<p>Download the Goma Library build script here: <a href="files/build-goma-dependencies.sh">Goma Library Script</a></p>
+<p>Use the script in the following way: <code>bash build-goma-dependencies.sh [Number of Make Jobs] [Build/Install Location]</code><p>
+<p>As soon as that finishes downloading, you should have the essential libraries inorder to run Goma 6.0!</p>
+
+<h3>Download Goma and Brkfix from github: <a href="https://github.com/goma">Goma on github</a></h3>
+
+<p>To build goma copy the settings.mk-example to settings.mk set the GOMA_LIBS macro to match your specified installation directory and add the makefile macro <code>FRONT_LIB =</code> to your settings.mk file.</p>
+
+<p>Goma should now be able to compile with make</p>
+
+<p>To build brkfix adjust the <code>ACCESS</code> to match your seacas install from the build script <code>[Install Location]/SEACAS-2013-12-03</code></p>
+
+
