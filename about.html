@@ -1,0 +1,167 @@
+---
+layout: default
+title: About Goma
+---
+<h1>About Goma</h1>
+
+<p>For a more comprehensive introduction look at the <a href="/files/goma-capabilities.pdf">Goma Capabilities document (PDF)</a></p>
+
+<h3>What Does Goma 6.0 Do?</h3>
+<p>Goma 6.0 is software for numerical simulation of multiphysics continuum
+processes, including moving geometry, phase-change, fluid-structural interactions,
+complex rheology, and chemical reactions. It solves the fundamental equations of
+mass, momentum, energy, and chemical species transport using the finite-element
+method</p>
+<h3>How Does Goma 6.0 Work?</h3>
+<p>Goma 6.0 solves problems from all branches of mechanics, including fluid
+mechanics, solid mechanics, chemical reactions and mass transport, and energy
+transport. The conservation principles for momentum, mass, species, and
+energy, together with material constitutive relations, can be described by partial
+differential equations. The equations are made discrete for solution on a digital
+computer with the finite element method in space and the finite difference
+method in time. The resulting nonlinear, time-dependent, algebraic equations
+are solved with a full Newton-Raphson method. The linearized equations are
+solved with direct or Krylov-based iterative solvers. The simulations can be
+run on a single processor or on multiple processors in parallel using domain
+decomposition, which can greatly speed up engineering analysis</p>
+<p>Goma is designed as a general mechanics code, with no features that tie it
+to any particular application. Applications, or problems to be solved, are
+specified completely in input files, which include code and material properties
+specifications. The multitude of differential equations, material constitutive
+equations, and boundary conditions has evolved with the applications, but they
+are all from theories fully published in the open literature and Goma’s theory
+manual.</p>
+<p>Although many of Goma’s applications involve fixed boundaries, Goma really
+stands out when applied to problems with dynamic geometries, i.e. free and
+moving boundaries. A novel algorithm for mesh motion is at the heart of Goma,
+where boundary motion is accommodated by allowing mesh nodes to move as
+if they were a pseudo-solid rubbery material. This is where Goma gets its name,
+which means “rubber elasticity” in Spanish. From the principles of kinematics, this
+algorithm can be applied to either fluid- or solid-material regions or to problems
+of fluid-structure interactions. The problem can be Lagrangian, meaning that the
+mesh moves with the material, or Arbitrary Lagrangian Eulerian, meaning that in
+some places the mesh moves with the material and in others it does not. Goma 6.0
+also includes purely Eulerian boundary tracking methods on stationary meshes,
+using either the level set or the overset-grid methods.</p>
+<h3>Capabilities</h3>
+<p>Goma's capability is based on customer need</p>
+
+<ol>
+<li><p>Mechanics — Includes all major branches of mechanics and more. Conjugate capability.</p></li>
+<li><p>Material models and constitutive equations — Includes generalized Newtonian and VE 
+for fluids, elastic and elastoviscoplastic for solids, Fickian, multicomponent, and 
+non-Fickian fluxes, and more</p></li>
+<li><p>Free surface and free boundary tracking — Solidification surfaces, capillary free 
+surfaces, consolidation fronts, mold filling fronts, saturation fronts, user prescribed 
+kinematics and geometry, ablation fronts, and more</p></li>
+<li><p>Multidimensional with 2.5D capability. Full shell capability.</p></li>
+<li><p>Platform generality — High-end, high-performance, and commodity hardware</p></li>
+<li><p>User prescribed and user defined capability</p></li>
+<li><p>Fluid-structural interactions — Computational Lagrangian solids and ale in both 
+solids and fluids with Eulerian-Eulerian methods an active research area</p></li>
+<li><p>Saturated and unsaturated, deformable, porous media — Poro-elastic and poro-plastic</p></li>
+<li><p>Full-Newton coupled algorithms and automated continuation, augmenting conditions, 
+stability analysis — All in a production setting</p></li>
+<li><p>Other advanced features — Shell reduced order models, solid-model-based geometry 
+support; advanced post processing features</p></li>
+<li><p>Pixel and Voxel-to-mesh capability</p></li>
+</ol>
+
+<h2>Features and Highlights</h2>
+
+<h3>Material Models - Fluids</h3>
+
+<ul>
+  <li>
+    <p>Generalized Newtonian (concentration, temperature and shear-rate dependence). Carreau, Carreau-WLF, Molten glass, epoxy, epoxy cure, bingham-plastic</p>
+    <p>Industry applications: Extrusion, polymer processing, coating</p>
+  </li>
+  <li>
+    <p>Supension balance models (Phillips model for particle concentration, Krieger for viscosity)</p>
+    <p>Industry applications: Multiphase manufacturing flows</p>
+  </li>
+  <li>
+    <p>Single or multimode viscoelastic with EVSS split stress approach</p>
+    <p>Industry applications: Extrusion, polymer processing, coating</p>
+  </li>
+</ul>
+
+<h3>Thermo-physical Property and Phase Change Models</h3>
+
+<ul>
+  <li>
+    <p>
+      Vapor/liquid equilibrium - Ideal and Flory Huggins
+    </p>
+  </li>
+  <li>
+    <p>
+      Discontinous variables approach for interphase mass-momentum transport (Schunk and Rao, IJNMF 1994)
+    </p>
+  </li>
+  <li>
+    <p>
+      Vapor-pressur VS (T, C, K) models, Viz. Kelvin equation, Riedel, Antoine, etc.
+    </p>
+  </li>
+  <li>
+    <p>
+      Liquid and solid equilibrium - Scheil or solute dependent solidification (latent heat release with enthalpy or intefacial Stephan condition).
+    </p>
+  </li>
+  <li>
+    <p>
+      Liquid andSolid macrosegregation with Flemings-Mehrabian model
+    </p>
+  </li>
+  <li>
+    <p>
+      Polymer thermoset and condensation curing
+    </p>
+  </li>
+</ul>
+<h3>Shell Elements</h3>
+<ul>
+  <li>
+    <p>
+      Shell Element Technology can be easily integrated into a large-aspect-ratio structure (shell elements can be membranes, inextensible shell, lubrication, or porous)  
+    </p>
+  </li>
+  <li>
+    <p>
+      Goma 6.0 has integrated true curvilinear shell capability for lubrication (the first of its kind to our knowledge with continuum codes), porous, penetration, and integrated structure
+    </p>
+  </li>
+</ul>
+<h3>Mechanics and Algorithms</h3>
+<ul>
+  <li>
+    <p>
+      Comprehensive mechanics couplings allow the algorithms to run with minimal tuning  
+    </p>
+  </li>
+  <li>
+    <p>
+      Advanced, automated machinery allows for complex algorithms (augmenting condition capability, linear stability, and high-order continuation) 
+    </p>
+  </li>
+   <li>
+    <p>
+      Advanced, automated machinery allows for complex algorithms (augmenting condition capability, linear stability, and high-order continuation) and faster quadratic convergence
+    </p>
+  </li>
+</ul>
+
+<h3>Advanced Analysis Capabilities</h3>
+<ul>
+  <li>
+    <p>
+      Augmenting conditions (volume, mesh constrains, optimization) allows extreme analysis precision    
+    </p>
+  </li>
+  <li>
+    <p>
+      ARPACK and ANAZAZI provide linear stability analysis in both 2D and 3D dynamic systems
+    </p>
+  </li>
+</ul>
