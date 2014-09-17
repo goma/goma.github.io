@@ -15,6 +15,23 @@ title: Goma dependencies build script
 <p>Use the script in the following way: <code>bash build-goma-dependencies.sh -j[Number of Make Jobs] [Build/Install Location]</code><p>
 <p>As soon as that finishes downloading, you should have the essential libraries inorder to run Goma 6.0!</p>
 
+<p>Before building goma you should add the newly compiled openmpi, and SEACAS to your path</p>
+
+<p>If you want easy access you can add these settings to your shell settings (e.g. .bashrc) otherwise you can type them in manually each time you want to run goma</p>
+
+<p>OPENMPI:</p>
+
+<pre>
+  export LD_LIBRARY_PATH="/[path to gomalibs]/openmpi-1.6.4/lib:$LD_LIBRARY_PATH"
+  export PATH="/[path to gomalibs]/openmpi-1.6.4/bin:$PATH"
+</pre>
+
+<p>SEACAS</p>
+
+<pre>
+  export PATH="/[path to gomalibs]/SEACAS-2013-12-03/bin:$PATH"  
+</pre>
+
 <h3>Download Goma and Brkfix from github: <a href="https://github.com/goma">Goma on github</a></h3>
 
 <p>To build goma copy the settings.mk-example to settings.mk set the GOMA_LIBS macro to match your specified installation directory and add the makefile macro <code>FRONT_LIB =</code> to your settings.mk file.</p>
