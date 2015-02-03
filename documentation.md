@@ -10,6 +10,10 @@ goma provides.
 
 [Goma User Manual (pdf)](/files/goma-manual.pdf)
 
+# Goma Advanced Capabilities
+
+[Goma Advanced Capabilities Manual (pdf)](/files/goma-adv-cap.pdf)
+
 # Goma Beginners tutorial
 
 The goma beginners tutorial provides an introduction to running goma.
