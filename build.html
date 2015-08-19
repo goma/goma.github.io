@@ -392,7 +392,6 @@ make_output directory for the error descriptions. </p>
 <li><code class="libraries">cd SuperLU_DIST_2.3</code></li>
 <li>Edit the make.inc file</li>
 <li>Inside the make.inc file set PLAT equal to nothing, edit the DSuperLUroot, edit the BLASLIB, edit the METISLIB and PARMETISLIB, set ARCHFLAGS to -rc, set RANLIB to echo, set CC to mpicc set FORTRAN to mpif90, LOADER to mpicc, and edit CDEFS to equal -Dadd_. </li>
-<li>Go to the ARPACK dir and issue the command:<code class="libraries">make</code></li>
 <li>Go back inside the make.inc file and delete any unrecognized flags. </li>
 <li>Run: <code class="libraries">make</code></li>
 </ul>
