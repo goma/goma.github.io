@@ -6,35 +6,35 @@ title: Goma dependencies build script
 <h1>Goma 6.1 Dependencies build script</h1>
 <p>6/20/2014 – C. J. Miner</p>
 
-<p>Welcome to the new BETA Quick-Build page for Goma 6.1! We have made a run script that will allow you to easily download all of the necesarry supporting files for Goma 6.0, and we have also included simple instructions on how to correctly configure Goma 6.1 so that it is ready for immediate use!</p>
+<p>Welcome to the new BETA Quick-Build page for Goma! We have made a run script that will allow you to easily download all of the necesarry supporting files for Goma, and we have also included simple instructions on how to correctly configure Goma so that it is ready for immediate use!</p>
 
-<p>This script has been tested on CentOS 6, CentOS 7, Debian 8, Redhat 6, and Ubuntu 16.04 and requires a 64bit architecture, 4 GB of ram, and 7GB of free harddisk space.</p>
-<p>It requires wget and md5sum, though both of these should be installed already.</p>
+<p>This script has been tested on CentOS 6, CentOS 7, and Redhat 6, and requires 7GB of free harddisk space.</p>
+<p>It also requires wget and md5sum, though both of these should be installed already.</p>
 
 <h3>Building the required libraries</h3>
 <p><b>1)</b> Download the Goma Library build script here: <a href="https://raw.githubusercontent.com/goma/goma/master/scripts/build-goma-dep-trilinos-12.sh">Goma Library build script</a></p>
 <p><b>2)</b> Use the script in the following way: </p>
 <pre>bash build-goma-dep-trilinos-12.sh -j[Number of Make Jobs] [Build/Install Location]</pre>
-<p>This script requires 3GB of ram per make job and the install location should be final.</p>
-<p>As soon as that finishes downloading, you should have the essential libraries in order to run Goma 6.1!</p>
-<p><b>3)</b> Before building goma you should add the newly compiled openmpi, and SEACAS to your path</p>
+<p>This script requires about 3GB of ram per make job and the install location should be final.</p>
+<p>As soon as everything completes, you should have the essential libraries required to install Goma!</p>
+<p><b>3)</b> Before building goma you should add the newly compiled openmpi, and SEACAS to your path.</p>
 
-<p>If you want easy access you can add these settings to your shell settings (e.g. .bashrc) otherwise you can type them in manually each time you want to run goma</p>
+<p>If you want easy access you can add these settings to your shell settings (e.g. .bashrc) otherwise you can type them in manually each time you want to run Goma.</p>
 <p>OPENMPI:</p>
 
 <pre>
-  export LD_LIBRARY_PATH="/[path to gomalibs]/openmpi-1.6.4/lib:$LD_LIBRARY_PATH"
-  export PATH="/[path to gomalibs]/openmpi-1.6.4/bin:$PATH"
+  export LD_LIBRARY_PATH="/[path to gomalibs]/openmpi-[openmpi version]/lib:$LD_LIBRARY_PATH"
+  export PATH="/[path to gomalibs]/openmpi-[openmpi version]/bin:$PATH"
 </pre>
 
 <p>SEACAS</p>
 
 <pre>
-  export PATH="/[path to gomalibs]/SEACAS-2013-12-03/bin:$PATH"  
+  export PATH="/[path to gomalibs]/SEACAS-[SEACAS version]/bin:$PATH"  
 </pre>
 
 <h3>Building Goma And Configuring Settings.mk</h3>
-<p><b>1)</b> Download Goma and Brkfix from github: <a href="https://github.com/goma">Goma</a></p>
+<p><b>1)</b> Download Goma and Brkfix from github: <a href="https://github.com/goma">Goma</a>.</p>
 <p>This can be done in bash with:</p>
 <pre>git clone https://github.com/goma/brkfix && git clone https://github.com/goma/goma</pre>
 <p><b>2)</b> Copy the settings.mk-example file to "settings.mk".</p>
@@ -43,9 +43,9 @@ title: Goma dependencies build script
 <p><b>5)</b> Change any other appropriate settings. For example you may need to uncomment CXXSTD = -std=gnu++11 if your compiler is recent.</p>
 
 <br>
-<p>Goma should now be able to compile with make</p>
+<p>Goma should now be able to compile with make!</p>
 
-<p>If you get any errors then its probably something which can be fixed with settings.mk</p>
+<p>If you get any errors then it is probably something which can be fixed with settings.mk.</p>
 
 <br>
 <p>Finally, to build brkfix adjust the <code>ACCESS</code> to match your seacas install from the build script <code>[Install Location]/SEACAS-2013-12-03</code></p>
