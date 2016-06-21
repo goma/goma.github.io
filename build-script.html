@@ -11,7 +11,7 @@ title: Goma dependencies build script
 <p>This script has been tested on CentOS 6, CentOS 7, and Redhat 6, and requires 7GB of free harddisk space.</p>
 <p>It also requires wget and md5sum, though both of these should be installed already.</p>
 
-<h3>Building the required libraries</h3>
+<h3>Building and installing the required libraries</h3>
 <p><b>1)</b> Download the Goma Library build script here: <a href="https://raw.githubusercontent.com/goma/goma/master/scripts/build-goma-dep-trilinos-12.sh">Goma Library build script</a></p>
 <p><b>2)</b> Use the script in the following way: </p>
 <pre>bash build-goma-dep-trilinos-12.sh -j[Number of Make Jobs] [Build/Install Location]</pre>
@@ -34,18 +34,27 @@ title: Goma dependencies build script
 </pre>
 
 <h3>Building Goma And Configuring Settings.mk</h3>
-<p><b>1)</b> Download Goma and Brkfix from github: <a href="https://github.com/goma">Goma</a>.</p>
+<p><b>1)</b> Download Goma from github: <a href="https://github.com/goma">Goma</a>.</p>
 <p>This can be done in bash with:</p>
-<pre>git clone https://github.com/goma/brkfix && git clone https://github.com/goma/goma</pre>
+<pre>git clone https://github.com/goma/goma</pre>
 <p><b>2)</b> Copy the settings.mk-example file to "settings.mk".</p>
-<p><b>3)</b> Set GOMA_LIBS to the directory you ran the script in.</p>
+<p><b>3)</b> Open up settings.mk and change GOMA_LIBS to the directory you installed the libraries.</p>
 <p><b>4)</b> Change the versions of TRILINOS_TOP, SEACAS_TOP, and MPI_TOP to the versions in your library.</p>
 <p><b>5)</b> Change any other appropriate settings. For example you may want stratimikos support.</p>
 
 <br>
-<p>Goma should now be able to compile with make!</p>
+<p>Goma should now compile with <pre>make</pre></p>
 
 <p>If you get any errors then it is probably something which can be fixed with settings.mk.</p>
 
 <br>
-<p>Finally, to build brkfix adjust the <code>ACCESS</code> to match your seacas install from the build script <code>[Install Location]/SEACAS-2013-12-03</code></p>
+<h3>Building Brkfix</h3>
+<p><b>1)</b> Download Brkfix from github.</p>
+<p>This can be done in bash with:</p>
+<pre>git clone https://github.com/goma/brkfix</pre>
+<p><b>2)</b> Open up Makefile.Trilinos and change GOMA_LIBS to the directory you installed the libraries./</p>
+<p><b>3)</b> Change TRILINOS_TOP to your version of Trilinos</p>
+<br>
+<p>Brkfix should now compile with <pre>make -f Makefile.Trilinos</pre></p>
+<br>
+<p>You have now compiled Goma and Brkfix. If you have never used Goma before then <a href="http://goma.github.io/documentation.html">click here for documentation.</a></p>
