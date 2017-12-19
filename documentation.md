@@ -24,4 +24,4 @@ The goma beginners tutorial provides an introduction to running goma.
 
 # Building goma
 
-For information about building goma please see our [build notes](/build.html).
+For information about building goma please see our [README](https://github.com/goma/goma/blob/master/README.md).
