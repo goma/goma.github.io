@@ -3,6 +3,10 @@ layout: default
 title: Goma documentation
 ---
 
+# Building Goma
+
+For information about building goma please see our [README](https://github.com/goma/goma/blob/master/README.md).
+
 # Goma User Guide
 The main goma documentation is the goma user guide. It contains information about
 how goma works, how problems are set up, and documentation on many of the capabilities that
@@ -22,6 +26,6 @@ The goma beginners tutorial provides an introduction to running goma.
 
 [Beginners tutorial required files](/files/goma_beginners_tutorial.tar.gz)
 
-# Building goma
+# Goma Confluence
 
-For information about building goma please see our [README](https://github.com/goma/goma/blob/master/README.md).
+We are using [confluence](https://www.atlassian.com/software/confluence) to better organize the community documentation efforts. Please join the project at [https://goma.bot.nu/confluence](https://goma.bot.nu/confluence).

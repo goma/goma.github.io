@@ -5,6 +5,24 @@ title: "Goma &mdash; Selected Publications"
 
 # Selected Publications related to Goma
 
+* Cochrane, A., Tjiptowidjojo, K., Bonnecaze, R. T. and Schunk, P. R. 2018. "Multiphase model for nanoimprint lithography". International Journal of Multiphase Flow. Accepted In-Press. [DOI-Link](https://doi.org/10.1016/j.ijmultiphaseflow.2018.03.014)
+
+* Tjiptowidjojo, K.; Hariprasad D. S.; Schunk, P. R. 2018. "Effect of blade-tip shape on the doctoring step in gravure printing processes". Journal of Coatings Technology and Research. Volume 15. [DOI-Link](https://doi.org/10.1007/s11998-017-0029-0)
+
+* Hariprasad, D. S., Grau, G., Schunk, P. R., Tjiptowidjojo, K. 2018. "A computational model for doctoring fluid films in gravure printing". Journal of Applied Physics. Volume 119. [DOI-Link](https://doi.org/10.1063/1.4945030)
+
+* Roberts, S. A. and P. R. Schunk. 2014. "A reduced-order model for porous flow through thin, structured materials". International Journal of Multiphase Flow. Volume 67. [DOI-Link](https://doi.org/10.1016/j.ijmultiphaseflow.2014.07.013)
+
+* Roberts, S. A., Noble, D. R., Benner, E. M. & Schunk, P. R. 2013. "Multiphase hydrodynamic lubrication flow using a three-dimensional shell finite element model". Computers & Fluids. [Volume 87](http://www.sciencedirect.com/science/journal/00457930/87/supp/C). 25 October 2013, Pages 12–25
+
+* Moore, N., Tjiptowidjojo, K., Schunk, P. R.  2011, “Comment on Hydrophilicity and the Viscosity of Interfacial Water”, Languir,  27(6 )  pp 3211-3212.
+
+* H. D. Rowland, W. P. King, A. C. Sun, and P. R. Schunk  Cross, GLW 2008.  “Predicting polymer flow during high-temperature atomic force microscope nanoindentation” Macromolecules. Vol.40, iss.22, p.8096-8103
+
+* S. Reddy, P. R. Schunk, and R. T.Bonnecaze, 2005.  “Dyanmics of low capillary number interfaces moving through sharp features”, Physics of Fluids, 17, 122104.
+
+* H. D. Rowland, W. P. King, A. C. Sun, and P. R. Schunk 2005. “Simulations of nonuniform embossing: The effect of asymmetric neighbor cavities on polymer flow 
+
 * Roberts, S. A.; Noble, D. R.; Benner, E. M. & Schunk, P. R. (2013), 'Multiphase hydrodynamic lubrication flow using a three-dimensional shell finite element model', Computers & Fluids. [Volume 87](http://www.sciencedirect.com/science/journal/00457930/87/supp/C), 25 October 2013, Pages 12–25
 
 * Roberts, S. A. & Schunk, P. R. (2013), 'Porous shell model development for thin, structured materials', Langmuir, submitted.
