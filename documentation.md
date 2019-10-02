@@ -13,6 +13,7 @@ how goma works, how problems are set up, and documentation on many of the capabi
 goma provides.
 
 [Goma User Manual (pdf)](/files/goma-manual.pdf)
+[WIP: Goma User Manual (html)](/user-manual)
 
 # Goma Advanced Capabilities
 
