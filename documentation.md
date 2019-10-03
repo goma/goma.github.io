@@ -12,8 +12,9 @@ The main goma documentation is the goma user guide. It contains information abou
 how goma works, how problems are set up, and documentation on many of the capabilities that
 goma provides.
 
-[Goma User Manual (pdf)](/files/goma-manual.pdf)
-[WIP: Goma User Manual (html)](/user-manual)
+- [Goma User Manual (pdf)](/files/goma-manual.pdf)
+
+- [WIP: Goma User Manual (html)](/user-manual)
 
 # Goma Advanced Capabilities
 
