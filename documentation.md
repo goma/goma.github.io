@@ -14,7 +14,7 @@ goma provides.
 
 - [Goma User Manual (pdf)](/files/goma-manual.pdf)
 
-- [WIP: Goma User Manual (html)](/user-manual)
+- [WIP: Goma User Manual (html)](https://docs.gomafem.com/html/index.html)
 
 # Goma Advanced Capabilities
 
@@ -30,4 +30,4 @@ The goma beginners tutorial provides an introduction to running goma.
 
 # Goma Confluence
 
-We are using [confluence](https://www.atlassian.com/software/confluence) to better organize the community documentation efforts. Please join the project at [https://goma.bot.nu/confluence](https://goma.bot.nu/confluence).
+We are using [confluence](https://www.atlassian.com/software/confluence) to better organize the community documentation efforts. Please join the project at [https://confluence.gomafem.com](https://confluence.gomafem.com).
