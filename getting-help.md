@@ -5,7 +5,7 @@ title: Getting Help
 
 ## Documentation and Tutorials
 
-Our documentation can be found at [http://goma.github.io/documentation.html](http://goma.github.io/documentation.html)
+Our documentation can be found at [https://www.gomafem.com/documentation.html](https://www.gomafem.com/documentation.html)
 
 In the documentation you will find our reference manuals and a beginners tutorial for running a couple small sample problems
 

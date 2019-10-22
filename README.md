@@ -1,4 +1,4 @@
-goma.github.io
-==============
+Goma FEM website
+================
 
-[Goma website](http://goma.github.io)
+[Goma website](https://www.gomafem.com)
