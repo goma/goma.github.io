@@ -14,7 +14,7 @@ goma provides.
 
 - [Goma User Manual (pdf)](/files/goma-manual.pdf)
 
-- [WIP: Goma User Manual (html)](https://docs.gomafem.com/html/index.html)
+- [WIP: Goma User Manual (html)](https://docs.gomafem.com/)
 
 # Goma Advanced Capabilities
 
