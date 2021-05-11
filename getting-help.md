@@ -11,10 +11,6 @@ In the documentation you will find our reference manuals and a beginners tutoria
 
 ## Questions and Answers and Community Wiki
 
-We have begun to use a [confluence](https://www.atlassian.com/software/confluence) server to facilitate communication and documentation efforts. 
+All general usage, and questions should be directed to GitHub discussions: [https://github.com/goma/goma/discussions](https://github.com/goma/goma/discussions)
 
-Our confluence installation can be found on the navigation bar or here: [Goma Confluence](https://confluence.gomafem.com)
-
-This includes a [Questions and Answers](https://confluence.gomafem.com/questions) page.
-
-
+A community wiki is available on GitHub but has not seen much use yet: [https://github.com/goma/goma/wiki](https://github.com/goma/goma/wiki)
