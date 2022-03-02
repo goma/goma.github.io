@@ -12,9 +12,9 @@ The main goma documentation is the goma user guide. It contains information abou
 how goma works, how problems are set up, and documentation on many of the capabilities that
 goma provides.
 
-- [Goma User Manual (pdf)](/files/goma-manual.pdf)
+- [Goma User Manual (html)](https://docs.gomafem.com/)
 
-- [WIP: Goma User Manual (html)](https://docs.gomafem.com/)
+- [Goma User Manual (pdf)](/files/goma-manual.pdf)
 
 # Goma Advanced Capabilities
 
@@ -28,6 +28,7 @@ The goma beginners tutorial provides an introduction to running goma.
 
 [Beginners tutorial required files](/files/goma_beginners_tutorial.tar.gz)
 
-# Goma Confluence
+# Segregated Memo
 
-We are using [confluence](https://www.atlassian.com/software/confluence) to better organize the community documentation efforts. Please join the project at [https://confluence.gomafem.com](https://confluence.gomafem.com).
+[Segregated Memo](/files/segregated_memo.pdf)
+
