@@ -8,6 +8,7 @@ title: Goma documentation
 For information about building goma please see our [README](https://github.com/goma/goma/blob/master/README.md).
 
 # Goma User Guide
+
 The main goma documentation is the goma user guide. It contains information about
 how goma works, how problems are set up, and documentation on many of the capabilities that
 goma provides.
@@ -68,6 +69,10 @@ GOMA
 - [GT-035](/files/tutorials/GT-035_2018.pdf) Exercising the Surface Rheology Capabilities in Goma
 - [Level Set Tutorial](/files/tutorials/Level_Set_Tutorial_2018.pdf)
 - [Particle Tutorial](/files/tutorials/Particle_Tutorial_2018.pdf)
+
+# Legacy templates
+
+Coming soon selected templates
 
 # Segregated Memo
 

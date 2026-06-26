@@ -3,6 +3,7 @@
   --pico-primary-hover: #133b7a;
   --pico-primary-focus: rgba(26, 79, 160, 0.25);
   --pico-primary-inverse: #fff;
+  --pico-font-size: 92.5%;
 }
 
 /* Sticky header */
@@ -53,13 +54,20 @@ body > footer {
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: 2.25rem;
   margin-bottom: 0.5rem;
   color: var(--pico-primary);
 }
 
+.hero-logo {
+  max-width: 180px;
+  width: 100%;
+  margin: 0.75rem auto 1rem;
+  display: block;
+}
+
 .hero .tagline {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--pico-muted-color);
   max-width: 560px;
   margin: 0 auto 2rem;
@@ -95,7 +103,7 @@ body > footer {
   }
 
   .hero h1 {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
   }
 }
 
