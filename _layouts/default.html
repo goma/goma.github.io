@@ -1,66 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>{{ page.title }}</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Google Analytics Code -->
+    <link rel="stylesheet" href="/assets/css/pico.min.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="icon" href="/assets/images/favicon.ico">
   </head>
-
   <body>
-
-    <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">
-            <img src="/files/goma.png" alt="goma">
-          </a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+    <header>
+      <div class="container-fluid">
+        <nav>
+          <ul>
+            <li><a href="/" class="site-brand"><strong>Goma</strong></a></li>
+          </ul>
+          <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/documentation.html">Documentation</a></li>
             <li><a href="/publications.html">Publications</a></li>
-	    <li><a href="/getting-help.html">Getting Help</a></li>
-	    <li><a href="/contact.html">Contact</a></li>
-	    <li><a href="https://github.com/goma/goma">Download</a></li>
+            <li><a href="/getting-help.html">Getting Help</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="https://github.com/goma/goma" class="nav-github">GitHub</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </nav>
       </div>
-    </div>
+    </header>
 
-
-    <div class="container">
-
+    <main class="container">
       {{ content }}
+    </main>
 
-    </div> <!-- /container -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
+    <footer>
+      <div class="container-fluid">
+        <small>
+          <a href="https://github.com/goma/goma">Goma on GitHub</a> &mdash;
+          Open-source multiphysics finite element program
+        </small>
+      </div>
+    </footer>
   </body>
 </html>
