@@ -40,6 +40,39 @@ body > main {
   min-height: calc(100vh - 160px);
 }
 
+/* Documentation table of contents */
+.doc-toc {
+  display: block;
+  border-left: 4px solid var(--pico-primary);
+  margin-bottom: 1.5rem;
+  padding: 0.6rem 1rem;
+  background: color-mix(in srgb, var(--pico-primary) 6%, transparent);
+  border-radius: 0 var(--pico-border-radius) var(--pico-border-radius) 0;
+}
+
+.doc-toc h2 {
+  margin-bottom: 0.35rem;
+  font-size: 1.1rem;
+}
+
+.doc-toc ul {
+  display: block;
+  margin-bottom: 0;
+  padding-left: 2rem;
+}
+
+.doc-toc li {
+  display: list-item;
+  break-inside: avoid;
+  padding: 0;
+  padding-left: 1rem;
+}
+
+.doc-toc a {
+  display: inline;
+  padding: 0;
+}
+
 /* Footer */
 body > footer {
   border-top: 1px solid var(--pico-muted-border-color);

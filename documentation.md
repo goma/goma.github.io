@@ -3,21 +3,33 @@ layout: default
 title: Goma documentation
 ---
 
+<nav class="doc-toc" aria-labelledby="doc-toc-heading">
+  <h2 id="doc-toc-heading">Contents</h2>
+  <ul>
+    <li><a href="#building-goma">Building Goma</a></li>
+    <li><a href="#goma-user-guide">Goma User Guide</a></li>
+    <li><a href="#goma-advanced-capabilities">Goma Advanced Capabilities</a></li>
+    <li><a href="#goma-beginners-tutorial">Goma Beginners Tutorial</a></li>
+    <li><a href="#legacy-tutorials">Legacy Tutorials</a></li>
+    <li><a href="#segregated-memo">Segregated Memo</a></li>
+  </ul>
+</nav>
+
 # Building Goma
 
 For information about building goma please see our [README](https://github.com/goma/goma/blob/master/README.md).
 
-# Goma User Guide
+# Goma User Manual
 
-The main goma documentation is the goma user guide. It contains information about
+The main goma documentation is the goma user manual. It contains information about
 how goma works, how problems are set up, and documentation on many of the capabilities that
 goma provides.
 
 - [Goma User Manual (html)](https://docs.gomafem.com/)
 
-- [Goma User Manual (pdf)](/files/goma-manual.pdf)
-
 # Goma Advanced Capabilities
+
+This has been integrated into the user manual above.
 
 [Goma Advanced Capabilities Manual (pdf)](/files/goma-adv-cap.pdf)
 
@@ -37,6 +49,7 @@ many topics still. Template files for many of these are located on GitHub
 however they have not been recently tested and may need some effort to work on a
 modern Goma. They still serve as a useful reference for starting problems.
 
+- [GT-001](/files/goma-beginners-tutorial.pdf) Goma beginners tutorial
 - [GT-002](/files/tutorials/GT-002_2018.pdf) Slot coating templates and tutorial for GOMA and SEAMS
 - [GT-003](/files/tutorials/GT-003_2018.pdf) Roll coating templates and tutorial for GOMA and SEAMS
 - [GT-004](/files/tutorials/GT-004_2018.pdf) Goma DAKOTA tutorial for new users 
