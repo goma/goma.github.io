@@ -31,7 +31,11 @@ The goma beginners tutorial provides an introduction to running goma.
 
 # Legacy Tutorials
 
-The following tutorials are possibly outdated but serve as a good reference for many topics still.
+The following tutorials are possibly outdated but serve as a good reference for
+many topics still. Template files for many of these are located on GitHub
+[https://github.com/goma/legacy-tutorial-templates](https://github.com/goma/legacy-tutorial-templates)
+however they have not been recently tested and may need some effort to work on a
+modern Goma. They still serve as a useful reference for starting problems.
 
 - [GT-002](/files/tutorials/GT-002_2018.pdf) Slot coating templates and tutorial for GOMA and SEAMS
 - [GT-003](/files/tutorials/GT-003_2018.pdf) Roll coating templates and tutorial for GOMA and SEAMS
@@ -70,9 +74,6 @@ GOMA
 - [Level Set Tutorial](/files/tutorials/Level_Set_Tutorial_2018.pdf)
 - [Particle Tutorial](/files/tutorials/Particle_Tutorial_2018.pdf)
 
-# Legacy templates
-
-Coming soon selected templates
 
 # Segregated Memo
 
