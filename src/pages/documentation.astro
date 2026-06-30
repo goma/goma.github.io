@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const primaryDocs = [
+  {
+    title: "Build Goma",
+    text: "Build instructions live in the source repository README.",
+    href: "https://github.com/goma/goma/blob/master/README.md",
+    action: "Open README"
+  },
+  {
+    title: "Goma User Manual",
+    text: "The main reference manual for input cards and setup.",
+    href: "https://docs.gomafem.com/",
+    action: "Open HTML Manual"
+  },
+  {
+    title: "Beginners Tutorial",
+    text: "An introduction to running Goma (templates at bottom of page).",
+    href: "/files/goma-beginners-tutorial.pdf",
+    action: "Download PDF"
+  }
+];
+
+const tutorials = [
+  ["GT-001", "/files/goma-beginners-tutorial.pdf", "Goma beginners tutorial"],
+  ["GT-002", "/files/tutorials/GT-002_2018.pdf", "Slot coating templates and tutorial for GOMA and SEAMS"],
+  ["GT-003", "/files/tutorials/GT-003_2018.pdf", "Roll coating templates and tutorial for GOMA and SEAMS"],
+  ["GT-004", "/files/tutorials/GT-004_2018.pdf", "Goma DAKOTA tutorial for new users"],
+  ["GT-005", "/files/tutorials/GT-005_2018.pdf", "TALE capability and applicability to coating with/on deformable media"],
+  ["GT-006", "/files/tutorials/GT-006_2018.pdf", "Slot and roll coating with remeshing templates and tutorial"],
+  ["GT-007", "/files/tutorials/GT-007_2018.pdf", "Droplet on incline problem"],
+  ["GT-008", "/files/tutorials/GT-008_2018.pdf", "Porous media capabilities for saturated porous penetration problems"],
+  ["GT-009", "/files/tutorials/GT-009_2018.pdf", "Partially saturated flow in porous media"],
+  ["GT-010", "/files/tutorials/GT-010_2018.pdf", "Slot coating optimization"],
+  ["GT-011", "/files/tutorials/GT-011_2018.pdf", "Slide coating templates and tutorial"],
+  ["GT-012", "/files/tutorials/GT-012_2018.pdf", "3D roll coating template and tutorial"],
+  ["GT-013", "/files/tutorials/GT-013_2018.pdf", "Computations for slot coater edge section"],
+  ["GT-014", "/files/tutorials/GT-014_2018.pdf", "Running viscoelastic flow problems"],
+  ["GT-015", "/files/tutorials/GT-015_2018.pdf", "Parameter continuation and operability window estimation"],
+  ["GT-018", "/files/tutorials/GT-018_2018.pdf", "ROT card tutorial"],
+  ["GT-019", "/files/tutorials/GT-019_2018.pdf", "Elastoviscoplastic constitutive model theory, testing, and tutorial"],
+  ["GT-020", "/files/tutorials/GT-020_2018.pdf", "Level set interface tracking"],
+  ["GT-023", "/files/tutorials/GT-023_2018.pdf", "ARPACK eigensolver for linear stability analysis"],
+  ["GT-024", "/files/tutorials/GT-024_2018.pdf", "Three-dimensional free surface flow and 3D remeshing"],
+  ["GT-025", "/files/tutorials/GT-025_2018.pdf", "Element quality metrics"],
+  ["GT-026", "/files/tutorials/GT-026_2018.pdf", "Lagrange multipliers and level set boundary conditions"],
+  ["GT-027", "/files/tutorials/GT-027_2018.pdf", "Shell structure capability"],
+  ["GT-028", "/files/tutorials/GT-028_2018.pdf", "Liquid drop impact on a porous substrate"],
+  ["GT-029", "/files/tutorials/GT-029_2018.pdf", "Wetting contact and dewetting with level set capability"],
+  ["GT-031", "/files/tutorials/GT-031_2018.pdf", "Microfilling problem using level set method"],
+  ["GT-032", "/files/tutorials/GT-032_2018.pdf", "3D microfilling problem using level set method"],
+  ["GT-033", "/files/tutorials/GT-033_2018.pdf", "Structural shell application example"],
+  ["GT-034", "/files/tutorials/GT-034_2018.pdf", "Time step parameter selection for level set problems"],
+  ["GT-035", "/files/tutorials/GT-035_2018.pdf", "Surface rheology capabilities"],
+  ["Level Set", "/files/tutorials/Level_Set_Tutorial_2018.pdf", "Level Set Tutorial"],
+  ["Particle", "/files/tutorials/Particle_Tutorial_2018.pdf", "Particle Tutorial"]
+];
+---
+
+<BaseLayout title="Goma Documentation">
+  <section class="page-hero compact">
+    <p class="eyebrow">Documentation</p>
+    <h1>Manuals, tutorials, and reference material</h1>
+  </section>
+
+  <section class="card-grid resource-cards">
+    {primaryDocs.map((doc) => (
+      <article class="feature-card">
+        <h2>{doc.title}</h2>
+        <p>{doc.text}</p>
+        <a class="text-link" href={doc.href}>{doc.action}</a>
+      </article>
+    ))}
+  </section>
+
+
+  <section class="resource-section">
+    <div class="section-heading">
+      <p class="eyebrow">Legacy tutorials</p>
+      <h2>Reference PDF library</h2>
+      <p>These are older tutorials which may be outdated but server as a good reference for setting up and using Goma for complex problems. Many of the templates are located below in the Tutorial files section</p>
+    </div>
+    <div class="tutorial-list">
+      {tutorials.map(([code, href, title]) => (
+        <a href={href}>
+          <span>{code}</span>
+          <strong>{title}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-grid">
+    <article class="prose callout">
+      <h2>Advanced Capabilities</h2>
+      <p>The advanced capabilities material has been integrated into the user manual.</p>
+      <a class="button secondary" href="/files/goma-adv-cap.pdf">Download legacy advanced capabilities PDF</a>
+    </article>
+    <article class="prose callout">
+      <h2>Tutorial Files</h2>
+      <p>Template files for many legacy tutorials are available on GitHub and may require updates for modern Goma.</p>
+      <a class="button secondary" href="https://github.com/goma/legacy-tutorial-templates">Open legacy tutorial templates</a>
+      <a class="button secondary" href="/files/goma_beginners_tutorial.tar.gz">Download beginners tutorial files</a>
+    </article>
+    <article class="prose callout">
+      <h2>Segregated Memo</h2>
+      <p>Memo on using the segregated solver functionality</p>
+      <a class="button secondary" href="/files/segregated_memo.pdf">Download Segregated Memo</a>
+    </article>
+  </section>
+
+</BaseLayout>

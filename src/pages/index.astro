@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const strengths = [
+  "Coupled fluids, solids, thermal transport, species transport, and reactions",
+  "Free and moving boundary simulations with ALE, level set, and overset-grid methods",
+  "Parallel execution without per-processor licensing barriers",
+  "Open source codebase for adding algorithms, material models, and specialty physics"
+];
+---
+
+<BaseLayout>
+  <section class="hero-section">
+    <div class="hero-copy">
+      <p class="eyebrow">Open-source multiphysics simulation</p>
+      <h1>Goma Finite Element Program</h1>
+      <p class="hero-lede">
+        Goma is a parallel, scalable finite element code for modeling physical
+        processes with tightly coupled mechanics, transport, chemistry, and moving
+        geometry.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://github.com/goma/goma">Get Started on GitHub</a>
+        <a class="button secondary" href="/documentation.html">Read Documentation</a>
+      </div>
+    </div>
+    <div class="hero-media" aria-label="Goma simulation media">
+      <div class="video-frame hero-video">
+        <iframe
+          src="https://www.youtube.com/embed/9Gd3LaEd2rg"
+          title="Goma multiphysics simulation demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <img src="/files/applications.png" alt="Simulation application examples from Goma" width="663" height="223" />
+      <div class="metric-row">
+        <div><strong>MPI</strong><span>Parallel simulation workflows</span></div>
+        <div><strong>FEM</strong><span>Fluid models</span></div>
+        <div><strong>ALE</strong><span>Moving Boundaries</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="release-strip" aria-label="Release information">
+    <strong>Goma 7 released</strong>
+    <a href="https://github.com/goma/goma/releases">View releases on GitHub</a>
+  </section>
+
+  <section class="content-grid">
+    <article class="prose">
+      <h2>What Is Goma?</h2>
+      <p>
+Goma is an open-source, parallel, and scalable multiphysics software package for modeling and simulation of physical processes. It solves problems in all branches of mechanics, including fluids, solids, and thermal analysis. Goma employs advanced numerical methods for solving problems with coupled phenomena for manufacturing and performance applications. It also provides a flexible software development environment for specialty physics.
+      </p>
+
+<p>
+Goma is being used to reduce process-development time, understand fundamental processes, and to educate the next generation of computational mechanics experts.</p>
+      <a class="text-link" href="/about.html">Read more about Goma</a>
+    </article>
+
+    <article class="prose">
+      <h2>Purpose and Goals</h2>
+      <p>
+Goma has a unique feature for those who need to add new physics, equations, and material models to evaluate their process or product. Unlike commercial codes, Goma's source code is available allowing easy exploration of new algorithms, physics, and verification. Additionally, Goma takes advantage of parallel processing architectures without extra licensing fees assessed per processor, which is often standard practice in commercial codes.
+</p>
+    </article>
+  </section>
+
+  <section class="feature-band">
+    <div class="section-heading">
+      <p class="eyebrow">Core capabilities</p>
+      <h2>Built for coupled continuum mechanics</h2>
+    </div>
+    <div class="card-grid">
+      {strengths.map((item) => (
+        <article class="feature-card">
+          <p>{item}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="split-section">
+    <img class="application-image" src="/files/applications.png" alt="Simulation application examples from Goma" width="663" height="223" />
+    <div class="prose">
+      <h2>Applications</h2>
+      <p>
+Goma has been applied to manufacturing process design and device performance within the national laboratory system and in industry. Goma's applications range from coating and drying, to polymer processing and joining processes. Specific examples include flat-panel glass processing at Corning, composites such as 3M® Aluminum Conductor Composite Reinforced materials for power lines, and porous adsorbent media applications at Procter & Gamble.
+      </p>
+      <a class="button secondary" href="/publications.html">Browse Publications</a>
+    </div>
+  </section>
+</BaseLayout>

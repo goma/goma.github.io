@@ -1,0 +1,61 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Goma Finite Element Program",
+  description = "Goma is an open-source, parallel, scalable multiphysics finite element simulation code."
+} = Astro.props;
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about.html", label: "About" },
+  { href: "/documentation.html", label: "Documentation" },
+  { href: "/publications.html", label: "Publications" },
+  { href: "/getting-help.html", label: "Getting Help" },
+  { href: "/contact.html", label: "Contact" }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" href="/assets/images/favicon.ico" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="Goma home">
+          <img src="/assets/images/goma.png" alt="" width="150" height="45" />
+          <span>Finite Element Program</span>
+        </a>
+        <div class="nav-links">
+          {navItems.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+          <a class="github-link" href="https://github.com/goma/goma">GitHub</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-shell">
+        <div>
+          <strong>Goma</strong>
+          <p>Open-source multiphysics finite element simulation.</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/goma/goma">GitHub</a>
+          <a href="https://docs.gomafem.com/">Manual</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
